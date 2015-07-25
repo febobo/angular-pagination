@@ -1,1 +1,1 @@
-# angular-paganation
+# angular-pagination
