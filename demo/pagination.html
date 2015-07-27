@@ -1,0 +1,32 @@
+<div class="ui-page">
+  <ul class="pagination" ng-if="conf.total">
+    <li>
+    <a href="#" aria-label="Previous">
+      <span aria-hidden="true">
+        &laquo
+      </span>
+    </a>
+    </li>
+    <li ng-repeat="page in pageList">
+    <a>{{page}}</a>
+    </li>
+    <li>
+    <a href="#" aria-label="Previous">
+      <span aria-hidden="true">
+        &raquo
+      </span>
+    </a>
+    </li>
+  </ul>
+  <div class="pageConf">
+    <div>
+      共<input type="text" ng-model="conf.currentPage">页
+    </div>
+    <div >
+      <div class="name">
+        到<input type="text" ng-model="conf.currentPage">页
+      </div>
+      <button class="btn btn-success">确定</button>
+    </div>
+  </div>
+</div>
