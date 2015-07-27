@@ -1,0 +1,29 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>pagination</title>
+    <script type="text/javascript" charset="utf-8" src="../bower_components/angular/angular.js">
+    </script>
+    <script type="text/javascript" charset="utf-8" src="pagination.js">
+    </script>
+    <link rel="stylesheet"  href="../bower_components/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet"  href="pagination.css">
+  </head>
+  <body  onload="" ng-app="demo" ng-controller="demoCtro" class="row text-center">
+    <h1 id="" class="text-center">
+      {{title}}
+    </h1>
+    <div ui-pagination conf="conf"></div>
+  </body>
+</html>
+<script type="text/javascript" charset="utf-8">
+  var app = angular.module('demo' , ['pagination']);
+  app.controller('demoCtro' , function($scope , pagination){
+      console.log(pagination)
+      $scope.title = 'pagination-directive';
+      $scope.conf = {
+        total : 100,
+        currentPage : 1
+      }
+  })
+</script>
