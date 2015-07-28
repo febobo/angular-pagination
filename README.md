@@ -17,7 +17,7 @@ npm install && bower install
 
 ### 使用
 #### demo用法
-* html
+#### html
 ```
 <body ng-app="demo" ng-controller="demoCtro" class="row text-center">
     <div ui-pagination conf="conf"></div>
@@ -25,7 +25,7 @@ npm install && bower install
 
 ```
 
-* js
+#### js
 ```
 var app = angular.module('demo' , ['pagination']);
 
