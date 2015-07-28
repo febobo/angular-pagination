@@ -10,11 +10,16 @@
 .ui-page > * {
   margin-right : 10px;
 }
-.ui-page input[type="text"]{
+.ui-page input[type="text"] , .ui-page select{
   width : 34px;
   height : 34px;
   line-height : 34px;
   text-align : center;
   border : 1px solid #eee;
   margin : 0 4px;
+  background-color : #fff;
+  border-radius : 0;
+}
+.ui-page select{
+  width : auto ; 
 }

@@ -10,20 +10,51 @@
     <link rel="stylesheet"  href="pagination.css">
   </head>
   <body  onload="" ng-app="demo" ng-controller="demoCtro" class="row text-center">
-    <h1 id="" class="text-center">
+    <h1 id="" class="text-center" style="margin: 100px;">
       {{title}}
     </h1>
+    <form class="form-horizontal" style="overflow:hidden; padding : 0 400px;">
+      <div class="form-group " >
+       <label class="col-sm-3  control-label">总条数</label>
+       <div class="col-sm-9">
+         <input type="text" class="form-control" ng-model="conf.total">
+       </div>
+      </div>
+
+      <div class="form-group" >
+       <label class="col-sm-3  control-label">当前页</label>
+       <div class="col-sm-9">
+         <input type="text" class="form-control" ng-model="conf.currentPage">
+       </div>
+      </div>
+    </form>
     <div ui-pagination conf="conf"></div>
   </body>
 </html>
 <script type="text/javascript" charset="utf-8">
+
   var app = angular.module('demo' , ['pagination']);
-  app.controller('demoCtro' , function($scope , pagination){
-      console.log(pagination)
+
+  app.controller('demoCtro' , function($scope){
+
       $scope.title = 'pagination-directive';
+
       $scope.conf = {
-        total : 100,
-        currentPage : 1
+        total : 1190,
+        currentPage : 1,
+        itemPageLimit : 1,
+
+        // 是否显示一页选择多少条
+        isSelectPage : false,
+
+        // 是否显示快速跳转
+        isLinkPage : false
       }
+
+      $scope.$watch('conf.currentPage + conf.itemPageLimit' , function(news){
+
+         // 把你的http请求放到这里
+         console.log($scope.conf.currentPage , $scope.conf.itemPageLimit)
+      })
   })
 </script>
