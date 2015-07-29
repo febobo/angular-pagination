@@ -1,26 +1,28 @@
 var gulp = require('gulp');
-var connect = require('gulp-connect');
+var browserSync = require('browser-sync').create();
 
-gulp.task('connect' , function(){
-  connect.server({
-    port : 3001,
-    livereload : true
+gulp.paths = {
+  demo : 'demo'
+}
+
+gulp.task('browser-sync', function() {
+
+  browserSync.init({
+    server: {
+      baseDir : gulp.paths.demo,
+      index : 'index.html',
+      routes: {
+        "/bower_components": "bower_components",
+      }
+    },
+    startPath: '/',
+    files : gulp.paths.demo + '/*.*',
+    //port : 3001
   });
-})
 
-gulp.task('html' , function(){
-  gulp.src('./demo/*.html')
-    .pipe(connect.reload);
-})
+  gulp.watch( gulp.paths.demo + "/*.*").on('change', browserSync.reload);
+});
 
-gulp.task('js' , function(){
-  gulp.src('./demo/*.js')
-    .pipe(connect.reload);
-})
+gulp.task('serve' , ['browser-sync']);
 
-gulp.task('watch' , function(){
-  gulp.watch(['./demo/*.html'],['html']);
-  gulp.watch(['./demo/*.js'],['js']);
-})
 
-gulp.task('serve' , ['connect' , 'watch'])
