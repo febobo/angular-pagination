@@ -29,43 +29,41 @@
         }
 
         // 分页数组
-        scope.pageList = [];
-        scope.pageListFn = function(){
-
-          // 一共多少页
-          page.limit = Math.floor(conf.total / conf.itemPageLimit) ;
-
-          // 最多展示多少可见页码 默认为10
-          page.defaultLimit = conf.defaultLimit ? conf.defaultLimit : 10 ;
-
-          // 三种打点方式 ， 中间打点， 左边打点， 后边打点
-          if(page.limit <  page.defaultLimit ){
-            for(var i=1; i< page.limit ; i++){
-              scope.pageList.push(i);
-            }
-          }else{
-            if(conf.currentPage < 4){
-              for(var i=1 ; i<5 ; i++){
-                scope.pageList.push(i);
-              }
-              scope.pageList.push('...' , page.limit );
-            }else if(conf.currentPage >= page.limit - 3){
-              for(var i= page.limit - 4 ; i< page.limit  ; i++){
-                scope.pageList.push(i);
-              }
-              scope.pageList.unshift(1 , '...');
+        scope.pageListFn = function(chosePage){
+            conf.itemPageLimit = chosePage || conf.itemPageLimit;
+            scope.pageList = [];
+            // 一共多少页
+            page.limit = Math.ceil(conf.total / conf.itemPageLimit) ;
+            // 最多展示多少可见页码 默认为10
+            page.defaultLimit = conf.defaultLimit ? conf.defaultLimit : 10 ;
+            // 三种打点方式 ， 中间打点， 左边打点， 后边打点
+            if(page.limit <  page.defaultLimit ){
+                for(var i=1; i<= page.limit ; i++){
+                    scope.pageList.push(i);
+                }
             }else{
-              for(var i= conf.currentPage -2 ; i< conf.currentPage + 2 ; i++){
-                scope.pageList.push(i);
-              }
-              scope.pageList.push('...' , page.limit );
-              scope.pageList.unshift(1 , '...');
+                if(conf.currentPage < 8){
+                    for(var i=1 ; i<10 ; i++){
+                        scope.pageList.push(i);
+                    }
+                    scope.pageList.push('...' , page.limit );
+                }else if(conf.currentPage >= page.limit - 5){
+                    for(var i= page.limit - 8 ; i<= page.limit  ; i++){
+                        scope.pageList.push(i);
+                    }
+                    scope.pageList.unshift(1 , '...');
+                }else{
+                    for(var i= conf.currentPage -3 ; i< conf.currentPage + 4 ; i++){
+                        scope.pageList.push(i);
+                    }
+                    scope.pageList.push('...' , page.limit );
+                    scope.pageList.unshift(1 , '...');
+                }
             }
-          }
         }
         scope.pageListFn();
-
-        // 点击页码
+        
+            // 点击页码
         scope.changePage = function(page){
           if(page == '...') return ;
           conf.currentPage = page ;
@@ -75,18 +73,53 @@
         scope.prevPage = function(){
           if(conf.currentPage <= 1) return ;
           conf.currentPage -= 1;
+            scope.pageListFn();
         }
 
         // 下一页
         scope.nextPage = function(){
           if(conf.currentPage >= page.limit ) return ;
           conf.currentPage += 1;
+            scope.pageListFn();
         }
 
         // 改变一页显示条目
-        scope.selectPage = function(){
+        scope.selectPage = function(page){
+            conf.currentPage = 1;
+            scope.pageListFn(page);
         }
+        scope.$watch('conf.currentPage',function(news,old){
+            if(news == old) return;
+            scope.pageList = [];
+            scope.pageLength = null;
+            if(page.limit < 10){
+                scope.pageListFn();
+                return;
+            }
+            if((Number(news) -5) < 1 ){
+                for(var i=1 ; i<10; i++){
+                    scope.pageList.push(i);
+                }
+                scope.pageList.push('...' , page.limit );
+            }else if(Number(news)+ 5>page.limit){
+                for(var i= page.limit - 8 ; i<= page.limit  ; i++){
+                    scope.pageList.push(i);
+                }
+                scope.pageList.unshift(1 , '...');
+            }else{
+                for(var i= conf.currentPage -3 ; i< Number(conf.currentPage) + 4 ; i++){
+                    scope.pageList.push(i);
+                }
+                scope.pageList.push('...' , page.limit );
+                scope.pageList.unshift(1,'...');
 
+            }
+            if((news -5) < 1 && page.limit<5){
+                 for(var i=1 ; i<5; i++){
+                    scope.pageList.push(i);
+                }
+            }
+        })
         // 跳转页
         scope.linkPage = function(){
           if(!conf.linkPage) return ;
